@@ -43,6 +43,10 @@ def main():
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 lives -= 1
+                player.position = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+                for other_asteroid in asteroids:
+                    if other_asteroid.position.distance_to(player.position) < 300:
+                        other_asteroid.kill()
                 if lives <= 0:
                     print("Game over!")
                     print(f"Score: {score}")
