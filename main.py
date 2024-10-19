@@ -25,6 +25,9 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()
 
+    font = pygame.font.Font(None, 36)
+
+    score = 0
     dt = 0
 
 
@@ -39,9 +42,11 @@ def main():
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 print("Game over!")
+                print(f"Score: {score}")
                 sys.exit()
             for shot in shots:
                 if asteroid.collides_with(shot):
+                    score += 50
                     shot.kill()
                     asteroid.split()
 
@@ -49,6 +54,9 @@ def main():
 
         for obj in drawable:
             obj.draw(screen)
+
+        score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (10, 10))
 
         pygame.display.flip()
 
