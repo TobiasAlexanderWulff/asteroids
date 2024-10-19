@@ -25,8 +25,9 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()
 
-    font = pygame.font.Font(None, 36)
+    font = pygame.font.Font("DejaVuSans.ttf", 32)
 
+    lives = 3
     score = 0
     dt = 0
 
@@ -41,9 +42,11 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collides_with(player):
-                print("Game over!")
-                print(f"Score: {score}")
-                sys.exit()
+                lives -= 1
+                if lives <= 0:
+                    print("Game over!")
+                    print(f"Score: {score}")
+                    sys.exit()
             for shot in shots:
                 if asteroid.collides_with(shot):
                     score += 50
@@ -55,7 +58,9 @@ def main():
         for obj in drawable:
             obj.draw(screen)
 
+        lives_text = font.render(f"{lives * "♥"}", True, (255, 0, 0))
         score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(lives_text, (SCREEN_WIDTH - 100, 10))
         screen.blit(score_text, (10, 10))
 
         pygame.display.flip()
